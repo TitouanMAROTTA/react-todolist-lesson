@@ -1,0 +1,14 @@
+table{
+    padding-top: 20px;
+    background-color: aliceblue;
+}
+
+th{
+    /* border: solid black 1px; */
+    width: 200px;
+}
+
+.task{
+    height: 20px;
+    border: solid black 1px;
+}

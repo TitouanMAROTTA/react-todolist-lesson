@@ -1,34 +1,67 @@
 import React, { useState  } from 'react';
+import './TodoListBasic.css';
 
 const TodoListBasic = () => {
     
-    const [lastName, setLastName] = useState<string>('');
-    const [firstName, setFirstName] = useState<string>('');
-    const [age, setAge] = useState<number>();
+    const [task, setTask] = useState<string>('');
+    const [category, setCategory] = useState<string>('Todo');
 
 
-    const handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLastName(e.target.value)
+    const handleChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTask(e.target.value)
     }
 
-    const handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFirstName(e.target.value)
-    }
-
-    const handleChangeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // setAge(e.target.value)
+    const handleChangeCategory = (e : React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.target.value)
     }
 
 
 
     return <>
-        <input type="text" onChange={handleChangeLastName} value={lastName}/>
-        <input type="text" onChange={handleChangeFirstName} value={firstName}/>
-        <input type="number" onChange={handleChangeAge} value={age}/>
 
-        <div>{lastName}</div>
-        <div>{firstName}</div>
-        <div>{age}</div>
+        <input type="text" onChange={handleChangeTask} value={task}/>
+        
+        <select onChange={handleChangeCategory} value={category}>
+            <option value="Todo">Todo</option>
+            <option value="WIP">WIP</option>
+            <option value="Done">Done</option>
+        </select>
+
+        <input type="button" value='Add to list' />
+
+        <table>
+            <tr>
+                <th>Todo</th>
+                <th>WIP</th>
+                <th>Done</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                        <li>test</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
     </>
 
 };
