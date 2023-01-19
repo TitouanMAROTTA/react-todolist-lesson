@@ -1,7 +1,13 @@
 import React from 'react';
 
 const TodoListBasic = () => {
-    return <div>TodoListBasic</div>;
+    const LastName = 'Titouan';
+    const FirstName = 'MAROTTA';
+    
+    return <>
+        <div>{LastName}</div>
+        <div>{FirstName}</div>
+    </>
 };
 
 export default TodoListBasic;
