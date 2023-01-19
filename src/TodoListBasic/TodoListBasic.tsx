@@ -5,14 +5,23 @@ const TodoListBasic = () => {
     
     const [task, setTask] = useState<string>('');
     const [category, setCategory] = useState<string>('Todo');
+    const [todoTaskList, setTodoTaskList] = useState<string[]>([]);
+    const [wipTaskList, setWipTaskList] = useState<string[]>([]);
+    const [doneTaskList, setDoneTaskList] = useState<string[]>([]);
 
 
     const handleChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTask(e.target.value)
+        setTask(e.target.value);
     }
 
     const handleChangeCategory = (e : React.ChangeEvent<HTMLSelectElement>) => {
-        setCategory(e.target.value)
+        setCategory(e.target.value);
+    }
+
+    const handleAddTask = () => {
+        console.log(category);
+        setTodoTaskList([...todoTaskList, task]);
+        console.log(todoTaskList);
     }
 
 
@@ -27,7 +36,7 @@ const TodoListBasic = () => {
             <option value="Done">Done</option>
         </select>
 
-        <input type="button" value='Add to list' />
+        <input type="button" onClick={handleAddTask} value='Add to list' />
 
         <table>
             <tr>
