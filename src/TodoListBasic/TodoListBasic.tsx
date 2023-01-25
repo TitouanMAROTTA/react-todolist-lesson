@@ -20,10 +20,16 @@ const TodoListBasic = () => {
 
     const handleAddTask = () => {
         console.log(category);
-        setTodoTaskList([...todoTaskList, task]);
-        console.log(todoTaskList);
+        if(category === 'Todo'){
+            setTodoTaskList([...todoTaskList, task]);
+        }
+        else if (category === 'WIP'){
+            setWipTaskList([...wipTaskList, task]);
+        }
+        else if(category === 'Done'){
+            setDoneTaskList([...doneTaskList, task]);
+        }
     }
-
 
 
     return <>
@@ -47,26 +53,23 @@ const TodoListBasic = () => {
             <tr>
                 <td>
                     <ul>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
+                        {
+                            todoTaskList.map(item=>(<tr key={item}><td>{item}</td></tr>))
+                        }
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
+                        {
+                            wipTaskList.map(item=>(<tr key={item}><td>{item}</td></tr>))
+                        }
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
-                        <li>test</li>
+                        {
+                            doneTaskList.map(item=>(<tr key={item}><td>{item}</td></tr>))
+                        }
                     </ul>
                 </td>
             </tr>
