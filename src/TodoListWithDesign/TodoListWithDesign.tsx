@@ -1,25 +1,24 @@
 import React, { useState  } from 'react';
 import './TodoListWithDesign.css';
-import { Input, Button, Row, Col, Select, List } from 'antd';
+import { Input, Button, Row, Col, Select} from 'antd';
 // import bcrypt from 'bcrypt';
 
 const TodoListBasic = () => {
     
     const [task, setTask] = useState<string>('');
-    const [category, setCategory] = useState<string>('Todo');
-    const [newCategory, setNewCategory] = useState<string>('Todo');
-    const [todoTaskList, setTodoTaskList] = useState<string[]>([]);
-    const [wipTaskList, setWipTaskList] = useState<string[]>([]);
-    const [doneTaskList, setDoneTaskList] = useState<string[]>([]);
+    const [category, setCategory] = useState<string>('');
+    const [newCategory, setNewCategory] = useState<string>('');
     const [categoryList, setCategoryList] = useState<Category[]>([]);
+    const [taskList, setTaskList] = useState<Task[]>([]);
 
 
 
-    // interface Task {
-	// 	id: string;
-	// 	name: string;
-	// 	categoryId: string;
-	// }
+
+    interface Task {
+		id: string;
+		name: string;
+		categoryId: string;
+	}
 
     interface Category {
 		id: string;
@@ -43,29 +42,34 @@ const TodoListBasic = () => {
     
 
     const handleAddTask = () => {
-        console.log(category);
-        if(category === 'Todo'){
-            setTodoTaskList([...todoTaskList, task]);
-        }
-        else if (category === 'WIP'){
-            setWipTaskList([...wipTaskList, task]);
-        }
-        else if(category === 'Done'){
-            setDoneTaskList([...doneTaskList, task]);
-        }
+        setTaskList([...taskList, {
+			id: generateId(),
+			name: task,
+			categoryId: newCategory
+		}]);
+        // console.log('tache ajoutée : ' + task + 'pour la categorie : ' + newCategory)
+
+        {
+            taskList.forEach(element => {
+                if(element.categoryId === newCategory){
+                    
+                }
+            })
+        };
     }
 
-    const handleAddCategory = async () => {
+    const handleAddCategory = () => {
+        // console.log({newCategory});
         if (newCategory.length > 0) {
-			const id = await generateId();
-			setCategoryList([...categoryList, { id: id, name: category }]);
-			setNewCategory("");
+			const id =  generateId();
+			setCategoryList([...categoryList, { id: id, name: newCategory }]);
 		}
     }
 
     
-    const generateId = async () => {
+    const generateId = () => {
         const date = new Date().getTime().toString();
+        // console.log({date});
         // const salt = await bcrypt.genSalt();
         // const hash = await bcrypt.hash(date, salt);
         // return hash;
@@ -73,10 +77,16 @@ const TodoListBasic = () => {
     };
 
 
+    const handleDeleteItem = (deleteTaskId: string) => {
+		setTaskList(taskList.filter((task) => task.id !== deleteTaskId))
+	}
+
+
+
     return <>
         <Row>
             <Col span={20}>
-                <Input type="text" onChange={handleChoiceCategory}  placeholder="categoryInput"/>
+                <Input type="text" onChange={handleChoiceCategory} value={newCategory} placeholder="categoryInput"/>
             </Col>
             <Col span={2}>
                 <Input type="button" onClick={handleAddCategory} value='Add category' />
@@ -88,11 +98,8 @@ const TodoListBasic = () => {
             </Col>
             <Col span={4}>
                 <Select onChange={handleChangeCategory}>
-                    {/* <option value="Todo">Todo</option>
-                    <option value="WIP">WIP</option>
-                    <option value="Done">Done</option> */}
                     {
-                        categoryList.map(item=>(<option value={item.name}>{item.name}</option>))
+                        categoryList.map(item=>(<Select.Option value={item.name}>{item.name}</Select.Option>))
                     }
                 </Select>
             </Col>
@@ -104,34 +111,31 @@ const TodoListBasic = () => {
         <table>
             <tr>
                 {
-                    todoTaskList.map(item=>(<th key={item}>{item}</th>))
+                    categoryList.map(item=>(<th key={item.id}>{item.name}</th>))
                 }
-                <th>Todo</th>
-                <th>WIP</th>
-                <th>Done</th>
             </tr>
             <tr>
-                <td>
-                    <ul>
-                        {
-                            todoTaskList.map(item=>(<tr key={item}><td>{item}</td><td><Button>Delete</Button></td></tr>))
-                        }
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {
-                            wipTaskList.map(item=>(<tr key={item}><td>{item}</td><td><Button>Delete</Button></td></tr>))
-                        }
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {
-                            doneTaskList.map(item=>(<tr key={item}><td>{item}</td><td><Button>Delete</Button></td></tr>))
-                        }
-                    </ul>
-                </td>
+                {
+                    categoryList.map(categ => (
+                        <td key={categ.id}>
+                            <ul>
+                                {
+                                    taskList.map(task => {
+                                        if (task.categoryId === categ.name) {
+                                            return (
+                                                <tr key={task.name}>
+                                                    <td>{task.name}</td>
+                                                    <td><Button danger type="primary" onClick={() => handleDeleteItem(task.id)}>Delete</Button></td>
+                                                </tr>
+                                            );
+                                        }
+                                        return null;
+                                    })
+                                }
+                            </ul>
+                        </td>
+                    ))
+                }
             </tr>
         </table>
     </>
@@ -139,6 +143,3 @@ const TodoListBasic = () => {
 };
 
 export default TodoListBasic;
-
-
-  
