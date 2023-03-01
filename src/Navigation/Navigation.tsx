@@ -9,6 +9,7 @@ const menuItems = [
     { key: '/todo-list-basic', label: 'Basic' },
     { key: '/todo-list-with-design', label: 'With design' },
     { key: '/todo-list-edit', label: 'Edit' },
+    { key: '/example', label: 'Example' },
     { key: '/todo-list-redux', label: 'Redux' },
 ];
 
